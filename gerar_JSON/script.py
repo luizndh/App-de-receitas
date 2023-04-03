@@ -1,6 +1,4 @@
-import tkinter as tk
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
@@ -8,8 +6,6 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 import time
 import json
-import io
-
 
 options = webdriver.ChromeOptions()
 options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
@@ -59,12 +55,12 @@ while True:
         # Pegando os ingredientes necessários para realizar a receita
         div_ingredientes = nav.find_element(By.ID, "content-list-ingredientes")
         informacoes_ingredientes = div_ingredientes.find_elements(By.XPATH, ".//*")
-        
-        
-        lista_ingredientes_dict = {}
+      
+        lista_informacoes_receita = {}
         lista_ingredientes_titulo = ""
         lista_ingredientes_conteudo = ""
         
+        # O loop a seguir itera por todos os ingredientes da receita, separando-os pelos tópicos especificados do site.
         i = 0
         while i < len(informacoes_ingredientes) - 1:
                 if informacoes_ingredientes[i].tag_name == "p":
@@ -80,15 +76,17 @@ while True:
                         if i == len(informacoes_ingredientes) - 1:
                             break
                     
-                    lista_ingredientes_dict.update([('nome', nome_receita)])
-                    lista_ingredientes_dict.update([('descricao', descricao_receita)])
-                    lista_ingredientes_dict.update([('tempo_preparo', tempo_preparo)])
-                    lista_ingredientes_dict.update([('utensilios', utensilios)])
-                    lista_ingredientes_dict.update([('equipamentos', equipamentos)])
-                    lista_ingredientes_dict.update([('medidores', medidores)])
-                    lista_ingredientes_dict.update([(lista_ingredientes_titulo, lista_ingredientes_conteudo)])
+                    # Todas as informações da receita são adicionadas à um dicionário
+                    lista_informacoes_receita.update([('nome', nome_receita)])
+                    lista_informacoes_receita.update([('descricao', descricao_receita)])
+                    lista_informacoes_receita.update([('tempo_preparo', tempo_preparo)])
+                    lista_informacoes_receita.update([('utensilios', utensilios)])
+                    lista_informacoes_receita.update([('equipamentos', equipamentos)])
+                    lista_informacoes_receita.update([('medidores', medidores)])
+                    lista_informacoes_receita.update([(lista_ingredientes_titulo, lista_ingredientes_conteudo)])
                     
-        receitas_dict.update([(id_receita, lista_ingredientes_dict)])
+        # Depois, cada receita é adicionada à um novo dicionário com um id relacionado a cada receita.
+        receitas_dict.update([(id_receita, lista_informacoes_receita)])
         id_receita += 1
         
         nav.back()
@@ -102,6 +100,7 @@ while True:
         break
     proxima_pagina.click()
 
+# O dicionário das receitas é usado para criar o arquivo JSON.
 with open('receitas.JSON', 'w', encoding='UTF-8') as receitas:
     receitas.write(json.dumps(receitas_dict, indent=2))
 
