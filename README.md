@@ -16,6 +16,8 @@ Tkinter - 5.1.2
 
 `pip install customtkinter`
 
+JSON - 2.0.9 - built-in
+
 
 Obs: Todo o conhecimento das bibliotecas foi adquirido apenas lendo as suas respectivas documentações.
 
