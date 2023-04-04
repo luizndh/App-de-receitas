@@ -17,9 +17,12 @@ Tkinter - 5.1.2
 `pip install customtkinter`
 
 
+Obs: Todo o conhecimento das bibliotecas foi adquirido apenas lendo as suas respectivas documentações.
+
+
 ## Coleta e formatação de dados com Selenium e JSON
 
-Utilizando o script.py disponibilizado, você consegue reunir as informações de todas as receitas do site em um arquivo .JSON. O script demorou aproximadamente 30 minutos para executar completamente no meu computador, devido a quantidade de páginas e receitas do site.
+Utilizando o script.py disponibilizado, você consegue reunir as informações de todas as receitas do site em um arquivo JSON. O script demorou aproximadamente 30 minutos para executar completamente no meu computador, devido a quantidade de páginas e receitas do site.
 
 
 ## Criação da GUI com Tkinter
