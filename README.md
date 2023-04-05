@@ -29,3 +29,4 @@ Utilizando o script.py disponibilizado, você consegue reunir as informações d
 
 ## Criação da GUI com Tkinter
 
+-- Em andamento -- 
