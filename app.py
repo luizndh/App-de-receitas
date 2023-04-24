@@ -5,53 +5,35 @@ import random
 
 root = Tk()
 root.title("Gerador de Receitas")
+root.geometry('1200x800')
 
-lista_widgets = []
+with open("receitas.JSON", "r") as arq:
+        receitas = json.load(arq)
 
-mainframe = ttk.Frame(root, padding=(3, 3, 12, 12))
-mainframe.grid(column=0, row=0)
 
 def gerar_receita():
-    # Limpando os widgets da receita antiga mostrada
-    if len(lista_widgets) != 0:
-        for widget in lista_widgets:
-            widget.grid_remove()
-        lista_widgets.clear()
-    
-    i = 0
-    with open("script/receitas.JSON", "r") as arq:
-        receitas = json.load(arq)
+    # Pegando uma receita aleatoria
     id_receita = str(random.randint(1, len(receitas)))
-        
-    label_nome_topico = ttk.Label(mainframe, text='NOME: ')
-    label_descricao_topico = ttk.Label(mainframe, text='DESCRIÇÃO: ')
-    label_tempo_preparo_topico = ttk.Label(mainframe, text='TEMPO DE PREPARO: ')
-    label_utensilios_topico = ttk.Label(mainframe, text='UTENSÍLIOS: ')
-    label_equipamento_topico = ttk.Label(mainframe, text='EQUIPAMENTOS: ')
-    label_medidores_topico = ttk.Label(mainframe, text='MEDIDORES: ')
     
-    label_nome_topico.grid(column=0, row=0, sticky=E)
-    label_descricao_topico.grid(column=0, row=1, sticky=E)
-    label_tempo_preparo_topico.grid(column=0, row=2, sticky=E)
-    label_utensilios_topico.grid(column=0, row=3, sticky=E)
-    label_equipamento_topico.grid(column=0, row=4, sticky=E)
-    label_medidores_topico.grid(column=0, row=5, sticky=E)    
+    # Definindo o que será mostrado na janela
+    texto = f"{formatar_itens(receitas[id_receita])}"
     
-    for topico, conteudo in receitas[id_receita].items():
-        if "Ingredientes" in topico:
-            label_topico = ttk.Label(mainframe, text=f'{topico.upper()}: ')
-            label_topico.grid(column=0, row=i, sticky=NE)
-            lista_widgets.append(label_topico)
-        
-        label_conteudo = ttk.Label(mainframe, text=f'{conteudo}')
-        label_conteudo.grid(column=1, row=i, sticky=NW)
-        lista_widgets.append(label_conteudo)
-        
-        i += 1
+    # Limpa o conteúdo da receita anterior e insere o novo
+    texto_receita.delete("1.0", END)
+    texto_receita.insert(END, texto)
+    
+    
+def formatar_itens(itens):
+    return "\n\n".join([f"- {item}: {itens[item]}" for item in itens])
 
-gera = ttk.Button(mainframe, text="Gerar nova receita", command=gerar_receita)
-gera.grid(column=1, row=13, sticky=S)
+# Cria o widget que exibirá a receita
+texto_receita = Text(root, wrap=WORD, height=40, font=("Arial", 12))
+texto_receita.pack(padx=10, pady=10)
 
 
+# Cria o botão para gerar uma nova receita
+botao_gera = ttk.Button(root, text="Gerar Receita", command=gerar_receita)
+botao_gera.pack(pady=10)
 
+# Inicia o loop de eventos
 root.mainloop()
