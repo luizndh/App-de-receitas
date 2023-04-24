@@ -29,4 +29,4 @@ Utilizando o script.py disponibilizado, você consegue reunir as informações d
 
 ## Criação da GUI com Tkinter
 
--- Em andamento -- 
+O código para a criação da GUI ficou super simples, pois o intuito mesmo era apenas aprender a utilizar Selenium e fazer o app ser funcional. 
